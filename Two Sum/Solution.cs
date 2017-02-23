@@ -6,6 +6,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 
 namespace Two_Sum
 {
@@ -13,42 +14,24 @@ namespace Two_Sum
     {
         public static int[] TwoSum(int[] nums, int target)
         {
-            // solve the problem by narrowing down the solution via indexes in a nested loop
+            // solve the problem by passing through the array and saving it into the hashtable
+            // as the data is saved, check for the balance to see if a solution has been found
 
-            // array must be sorted in order for this solution to work
-            // a copy of the original is needed to get the correct indexes back
-            int[] numsCopy = new int[nums.Length];
-            Array.Copy(nums, numsCopy, nums.Length);
-            Array.Sort(nums);
+            // numbers are keys, and their indexes are values within the hashtable
+            Dictionary<int, int> bucket = new Dictionary<int, int>(nums.Length);
 
-            int j = nums.Length - 1;
-            // index from the left
-            for (int i = 0; i <= j; i++)
+            for (int i = 0; i < nums.Length; i++)
             {
-                int sum = nums[i] + nums[j];
-
-                // keep decreasing the right index until you find a sum that's lower or equal
-                while (sum > target && j > i)
+                int balance = target - nums[i];
+                // if hashtable has the needed balance, then these indexes are the solution
+                if (bucket.ContainsKey(balance))
                 {
-                    j--;
-                    sum = nums[i] + nums[j];
+                    return new int[] { bucket[balance], i };
                 }
 
-                // if the target is found, then get the original indexes and return
-                if (sum == target)
+                if (!bucket.ContainsKey(nums[i]))
                 {
-                    int a = Array.IndexOf(numsCopy, nums[i]);
-                    int b = Array.LastIndexOf(numsCopy, nums[j]);
-
-                    // rearrange if needed
-                    if (a > b)
-                    {
-                        int c = a;
-                        a = b;
-                        b = c;
-                    }
-
-                    return new int[] { a, b };
+                    bucket.Add(nums[i], i);
                 }
             }
 

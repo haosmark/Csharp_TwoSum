@@ -101,5 +101,20 @@ namespace Two_Sum
             // Assert
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void Test_2_2_5_TwoSum_7()
+        {
+            // Arrange
+            int target = 7;
+            int[] nums = new int[] { 2, 2, 5 };
+            int[] expected = new int[] { 0, 2 };
+
+            // Act
+            int[] actual = Solution.TwoSum(nums, target);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
     }
 }
